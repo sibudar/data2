@@ -1,0 +1,80 @@
+---
+swagger: "2.0"
+info:
+  description: "This server Defines intents from data. Transforming the data to a\
+    \ more acceptable version for our training machanism"
+  version: "1.0.0"
+  title: "Data Transformation"
+host: "localhost:8000"
+basePath: "/v1"
+tags:
+- name: "data"
+  description: "Everything Data related"
+schemes:
+- "http"
+paths:
+  /data:
+    get:
+      tags:
+      - "data"
+      summary: "Retrive data from external source"
+      description: ""
+      operationId: "getData"
+      consumes:
+      - "application/json"
+      - "application/xml"
+      - "application/text"
+      produces:
+      - "application/json"
+      parameters: []
+      responses:
+        200:
+          description: "Succesfully Retrived data"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/intents"
+        404:
+          description: "Data source unreachable"
+        405:
+          description: "Invalid input"
+      x-swagger-router-controller: "Data"
+securityDefinitions:
+  petstore_auth:
+    type: "oauth2"
+    authorizationUrl: "http://petstore.swagger.io/oauth/dialog"
+    flow: "implicit"
+    scopes:
+      write:pets: "modify pets in your account"
+      read:pets: "read your pets"
+  api_key:
+    type: "apiKey"
+    name: "api_key"
+    in: "header"
+definitions:
+  intents:
+    type: "object"
+    properties:
+      question:
+        type: "string"
+        format: "string"
+      answer:
+        type: "string"
+        format: "string"
+    example:
+      question: "question"
+      answer: "answer"
+  reqData:
+    type: "object"
+    properties:
+      url:
+        type: "string"
+        format: "string"
+        description: "Location for the data"
+      filetype:
+        type: "string"
+        format: "string"
+        description: "Type of file to be proccessed"
+externalDocs:
+  description: "Find out more about Swagger"
+  url: "http://swagger.io"
